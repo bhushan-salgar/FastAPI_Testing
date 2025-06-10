@@ -1,0 +1,52 @@
+# Maven target directory
+/target/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# NetBeans
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment and credentials
+.env
+*.key
+*.pem
+*.crt
+
+# Compiled class files
+*.class
+
+# Coverage and reports
+jacoco.exec
+coverage/
+surefire-reports/
+test-output/
+
+# Generated files
+*.jar
+*.war
+*.ear

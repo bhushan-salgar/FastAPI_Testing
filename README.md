@@ -12,6 +12,17 @@ This project tests CRUD APIs for a FastAPI-based bookstore application using:
 - Positive and negative scenarios
 - Request chaining (token & book ID reuse)
 
+### Running the Application
+
+1. Start the FastAPI server:
+
+    ```bash
+    uvicorn main:app --reload
+    ```
+
+2. The API will be available at `http://127.0.0.1:8000`
+
+
 ## Run Tests
 ```bash
 mvn clean test

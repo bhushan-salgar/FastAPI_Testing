@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     tools {
-        maven 'Maven_3.8.5'   // Ensure this matches your Jenkins tool config
-        jdk 'JDK_11'          // Ensure this matches your Jenkins JDK config
+        maven 'Maven_3'   // Ensure this matches your Jenkins tool config
+        jdk 'JDK_17'          // Ensure this matches your Jenkins JDK config
     }
 
     environment {
@@ -26,6 +26,7 @@ pipeline {
         stage('Publish Report') {
             steps {
                 // Optional: Allure Report
+                sh 'mvn allure:report'
                 allure includeProperties: false, jdk: '', results: [[path: 'target/allure-results']]
             }
         }
@@ -33,6 +34,7 @@ pipeline {
 
     post {
         always {
+			archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
             junit 'target/surefire-reports/*.xml'
             cleanWs()
         }

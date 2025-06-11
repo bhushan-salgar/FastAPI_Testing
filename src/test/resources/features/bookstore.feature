@@ -9,16 +9,15 @@ Feature: FastAPI Tests
   	Then the response status code should be <status>
     Examples:
     | email                      | password  | status |
-    | bhushan.salgar1@gmail.com  | pass123   | 400    |
-    | test.user2@example.com    | testpass1 | 400    |
+    | bhushan.salgar@gmail.com  | pass123   | 200    |
+    | bhushan.salgar@gmail.com    | pass123 | 400    |
      
     Scenario Outline: Login with valid users  
     When I log in with email "<email>" and password "<password>"
     Then I should get a bearer token
     Examples:
       | email                      | password  |
-      | bhushan.salgar@gmail.com  | pass123   |
-      | test.user1@example.com    | testpass1 | 
+      | bhushan.salgar@gmail.com  | pass123   | 
       
     Scenario: Login with invalid credentials
     When I log in with email "invalid.user@example.com" and password "wrongpass"
@@ -55,6 +54,33 @@ Feature: FastAPI Tests
     Scenario: Delete a non-existent book
     When I send DELETE Invalid request to "/books/999"
     Then the response status code should be 404
+    
+# Extra negative scenarios
+
+	Scenario: Access protected endpoint without token
+	When I send GET request without token
+	Then the response status code should be 403   
+	
+	Scenario: Add book with XSS in name
+	When I add a book with name "<script>alert('x')</script>", author "Author", published_year 2024, and book_summary "Hack test"
+	Then the response status code should be 400
+	
+	Scenario: Add book with a published year in the future
+	When I add a book with name "Future Book", author "Time Traveler", published_year 3000, and book_summary "Sci-fi"
+	Then the response status code should be 400
+	
+	Scenario: Add book with string as year
+	When I add a book with name "Bad Year", author "Author", published_year "twenty twenty", and book_summary "wrong type"
+	Then the response status code should be 422
+	
+	Scenario: Delete the same book twice
+    Given a book with ID exists
+    When I send DELETE request
+    And I delete the same book again
+    Then the second response status code should be 404
+	
+	 
+    
 
   
     

@@ -23,6 +23,7 @@ public class BookApiSteps {
 	private static final String BASE_PATH = "/books/";
 	
 	private Response response;
+	private Response delete_response;
     
 //    @When("I send GET request to {string}")
 //    public void i_send_get_request(String endpoint) {
@@ -171,6 +172,14 @@ public class BookApiSteps {
             .when()
             .get("/books/" + TestContext.createdBookId);
     }
+    
+    @When("I send GET request without token")
+    public void i_send_get_request_without_token() {
+        response = given()
+            .baseUri(BASE_URI)
+            .when()
+            .get("/books/" + TestContext.createdBookId);
+    }
 
     // ==================== WHEN ====================
 
@@ -195,6 +204,19 @@ public class BookApiSteps {
             .header("Authorization", "Bearer " + TestContext.bearerToken)
             .when()
             .delete("/books/" + TestContext.createdBookId);
+    }
+    
+    @When("I delete the same book again")
+    public void i_delete_the_same_book_again() {
+    	delete_response = given()
+        		.baseUri(BASE_URI)
+                .header("Authorization", "Bearer " + TestContext.bearerToken)
+                .delete("/books/" + TestContext.createdBookId);
+    }
+    
+    @Then("the second response status code should be {int}")
+    public void the_second_response_status_code_should_be(Integer expectedStatusCode) {
+        assertEquals(delete_response.getStatusCode(), (int) expectedStatusCode.intValue(), "Expected 404 for second delete");
     }
     
     @When("I send DELETE Invalid request to {string}")

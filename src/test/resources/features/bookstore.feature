@@ -1,15 +1,13 @@
 Feature: FastAPI Tests
 
-  Scenario: Health Check
-
+    Scenario: Health Check
     When I send GET request to "/health"
     Then the response status code should be 200
     
     Scenario Outline: Signup with valid or already registered users
  	 When I sign up with email "<email>" and password "<password>"
   	Then the response status code should be <status>
-
-  Examples:
+    Examples:
     | email                      | password  | status |
     | bhushan.salgar1@gmail.com  | pass123   | 400    |
     | test.user2@example.com    | testpass1 | 400    |
@@ -44,17 +42,17 @@ Feature: FastAPI Tests
     When I send GET request to book
     Then the response status code should be 200
 
-  Scenario: Update an existing book
+    Scenario: Update an existing book
     Given a book with ID exists
     When I update the book with name "Updated Book", author "Updated Author", published_year 2024, and book_summary "Updated summary"
     Then the response status code should be 200
 
-  Scenario: Delete an existing book
+    Scenario: Delete an existing book
     Given a book with ID exists
     When I send DELETE request
     Then the response status code should be 200
 
-  Scenario: Delete a non-existent book
+    Scenario: Delete a non-existent book
     When I send DELETE Invalid request to "/books/999"
     Then the response status code should be 404
 
